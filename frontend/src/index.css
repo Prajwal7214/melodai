@@ -1,0 +1,23 @@
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@900,700,500,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue: #0A84FF;
+  --color-brand-purple: #BF5AF2;
+  --color-brand-cyan: #64D2FF;
+  --color-brand-gray: #F5F5F7;
+  --color-brand-dark: #1D1D1F;
+  --font-satoshi: 'Satoshi', 'Satoshi Placeholder', sans-serif;
+  --font-instrument: 'Instrument Serif', 'Instrument Serif Placeholder', serif;
+}
+
+@layer base {
+  body {
+    background-color: #FFFFFF;
+    color: var(--color-brand-dark);
+    font-family: var(--font-satoshi);
+    overflow-x: hidden;
+  }
+}
