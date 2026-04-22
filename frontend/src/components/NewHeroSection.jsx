@@ -5,6 +5,8 @@ const NewHeroSection = () => {
   return (
     <div className="relative w-full h-[100vh] bg-gradient-to-br from-[#8E1802] via-[#E24A0C] to-[#EFBC87] overflow-hidden flex items-center justify-center font-sans text-white">
       <SplashCursor
+        DYE_RESOLUTION={512}
+        PRESSURE_ITERATIONS={8}
         DENSITY_DISSIPATION={3.5}
         VELOCITY_DISSIPATION={2}
         PRESSURE={0.1}
@@ -12,7 +14,7 @@ const NewHeroSection = () => {
         SPLAT_RADIUS={0.2}
         SPLAT_FORCE={6000}
         COLOR_UPDATE_SPEED={10}
-        SHADING={true}
+        SHADING={false}
         RAINBOW_MODE={false}
         COLOR="#FFD700"
       />

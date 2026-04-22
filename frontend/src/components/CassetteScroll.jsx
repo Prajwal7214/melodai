@@ -2,9 +2,9 @@ import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Link } from 'react-router-dom';
 
-const FRAME_COUNT = 240;
+const FRAME_COUNT = 120;
 // We'll aim for 24-30 fps for cinematic analog smoothness
-const FPS = 30; 
+const FPS = 24; 
 const FRAME_DURATION = 1000 / FPS;
 
 const CassetteScroll = () => {
@@ -52,7 +52,7 @@ const CassetteScroll = () => {
         }
     }, []);
 
-    // 3. Independent Cassette Animation Loop
+    // 3. Independent Cassette Animation Loop (paused when off-screen)
     useEffect(() => {
         if (!isAnimating || !canvasRef.current || imagesRef.current.length < FRAME_COUNT) return;
 
@@ -61,6 +61,7 @@ const CassetteScroll = () => {
         let animationFrameId;
         let lastTime = 0;
         let currentFrame = 0;
+        let isVisible = true;
 
         // Ensure canvas width matches the first frame
         const width = imagesRef.current[0].width;
@@ -69,21 +70,27 @@ const CassetteScroll = () => {
         canvas.height = height;
 
         const render = (time) => {
-            if (time - lastTime >= FRAME_DURATION) {
+            if (isVisible && time - lastTime >= FRAME_DURATION) {
                 lastTime = time;
                 currentFrame = (currentFrame + 1) % FRAME_COUNT;
-                
-                // Clear and draw active frame
                 ctx.clearRect(0, 0, width, height);
                 ctx.drawImage(imagesRef.current[currentFrame], 0, 0, width, height);
             }
             animationFrameId = requestAnimationFrame(render);
         };
 
+        // Pause when scrolled out of view
+        const observer = new IntersectionObserver(
+            ([entry]) => { isVisible = entry.isIntersecting; },
+            { threshold: 0.05 }
+        );
+        if (containerRef.current) observer.observe(containerRef.current);
+
         animationFrameId = requestAnimationFrame(render);
 
         return () => {
             cancelAnimationFrame(animationFrameId);
+            observer.disconnect();
         };
     }, [isAnimating]);
 

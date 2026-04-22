@@ -1,10 +1,13 @@
 from pymongo import MongoClient
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # MongoDB Atlas connection string
-MONGO_URI = "mongodb+srv://melodai_user:melodai123@cluster0.t1nfshd.mongodb.net/?appName=Cluster0"
+MONGO_URI = os.getenv("MONGO_URI")
 
-# Connect to MongoDB
-client = MongoClient(MONGO_URI)
+client = MongoClient(os.getenv("MONGO_URI"))
 
 # Create/select database
 db = client["melodai_db"]
